@@ -1,0 +1,57 @@
+http:
+  routers:
+    rabbitmq-api:
+      entrypoints:
+        - web  # Assuming "web" entrypoint is used (adjust if needed)
+      rule: Host(`localhost`) && PathPrefix(`/rabbitmq/api/{*:(.*?)}/{*:(.*)}/`)  # Matches requests to /rabbitmq/api/
+      middlewares:
+        - rabbitmq-strip-prefix  # Reference to a middleware for path stripping (defined below)
+      service: rabbitmq-api
+
+    rabbitmq:
+      entrypoints:
+        - web  # Assuming "web" entrypoint is used (adjust if needed)
+      rule: Host(`localhost`) && PathPrefix(`/rabbitmq/`)  # Matches requests to /rabbitmq/
+      middlewares:
+        - rabbitmq-strip-prefix  # Reference to a middleware for path stripping (defined below)
+      service: rabbitmq
+
+    prometheus:
+      entrypoints:
+        - web
+      rule: Host(`localhost`)&&PathPrefix(`/prom`)
+      service: prometheus
+    
+    grafana:
+      entrypoints:
+        - web
+      rule: Host(`localhost`)&&PathPrefix(`/grafana`)
+      service: grafana
+
+  services:
+    rabbitmq-api:
+      loadBalancer:
+        servers:
+          - url: http://rabbitmq:15672  # Replace with actual RabbitMQ host
+          # ... other load balancer options ...
+
+    rabbitmq:
+      loadBalancer:
+        servers:
+          - url: http://rabbitmq:15672  # Replace with actual RabbitMQ host
+          # ... other load balancer options ...
+    prometheus:
+      loadBalancer:
+        servers:
+          - url: http://prometheus:9090
+    
+    grafana:
+      loadBalancer:
+        servers:
+          - url: http://grafana:3000
+
+  middlewares:
+    rabbitmq-strip-prefix:
+      stripPrefix:
+        prefixes:
+          - /rabbitmq/  # Strips the "/rabbitmq/" prefix

@@ -1,0 +1,2 @@
+{"level": "INFO", "message": "{'url': '/docs', 'method': 'GET', 'process_time': 0.00025271999766118824}", "timestamp": "2024-03-19T18:34:27.373016+00:00", "logger": "my_app", "module": "middleware", "function": "log_middleware", "line": 19, "thread_name": "MainThread"}
+{"level": "INFO", "message": "{'url': '/docs', 'method': 'GET', 'process_time': 0.00019376800264581107}", "timestamp": "2024-03-19T18:34:27.911554+00:00", "logger": "my_app", "module": "middleware", "function": "log_middleware", "line": 19, "thread_name": "MainThread"}
