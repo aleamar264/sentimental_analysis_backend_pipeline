@@ -27,6 +27,8 @@ services:
       - "./traefik/traefik.dev.yaml:/etc/traefik/traefik.yaml"
       - "./traefik/dynamic.yaml:/etc/traefik/dynamic.yaml"
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./traefik/certificates/acme.json:/acme.json"
+      - "./traefik/certificates/config.yml:/config.yml:ro"
 
   rabbitmq:
     image: rabbitmq:3-management-alpine

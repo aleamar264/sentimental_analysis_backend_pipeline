@@ -61,3 +61,4 @@ http:
       stripPrefix:
         prefixes:
           - /rabbitmq/  # Strips the "/rabbitmq/" prefix
+

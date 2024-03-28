@@ -23,6 +23,7 @@ mypy = "^1.9.0"
 python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 pydantic-settings = "^2.2.1"
+isort = "^5.13.2"
 
 
 [build-system]

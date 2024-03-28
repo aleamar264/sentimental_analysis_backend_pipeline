@@ -6,6 +6,9 @@ from utils.middleware import log_middleware  # type: ignore
 from utils.database.general import _engine
 from model.user import Base
 from routes.user import router as user_route
+from routes.auth import router as auth_route
+
+# Create tables if they don't exist
 
 Base.metadata.create_all(bind=_engine)
 
@@ -29,6 +32,7 @@ app.add_middleware(
 
 app.add_middleware(BaseHTTPMiddleware, dispatch=log_middleware)
 app.include_router(user_route)
+app.include_router(auth_route)
 
 
 @app.get("/health", status_code=200)
