@@ -1,6 +1,12 @@
+from enum import Enum
 from pydantic import BaseModel, EmailStr, model_validator, Field, SecretStr
 from typing import Self
 from utils.fastapi.auth.utils import check_password
+
+
+class Roles(Enum):
+    ADMIN = "admin"
+    USER = "user"
 
 
 class AuthSchema(BaseModel):
@@ -18,19 +24,25 @@ class AuthSchema(BaseModel):
         return self
 
 
-class ResponseUserCreatedSchema(BaseModel):
+class UserSchema(BaseModel):
     email: EmailStr
-    phone: str | None = Field(default=None, max_length=14)
     name: str
     last_name: str | None = None
+    username: str
+
+
+class ExtraUserInfoModel(BaseModel):
+    phone: str | None = Field(default=None, max_length=14)
     address: str | None = None
     city: str | None = None
     state: str | None = None
     zip_code: int | None = None
     country: str | None = None
+    is_active: bool = True
+    role: Roles = Roles.USER
 
 
-class CreateUserSchema(ResponseUserCreatedSchema):
+class CreateUserSchema(UserSchema, ExtraUserInfoModel):
     password1: SecretStr = Field(min_length=8)
     password2: SecretStr = Field(min_length=8)
 
@@ -44,5 +56,5 @@ class CreateUserSchema(ResponseUserCreatedSchema):
         return self
 
 
-class ResponseUserSchema(ResponseUserCreatedSchema):
+class ResponseUserSchema(UserSchema, ExtraUserInfoModel):
     id: int
