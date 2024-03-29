@@ -16,6 +16,7 @@ http:
         - rabbitmq-strip-prefix  # Reference to a middleware for path stripping (defined below)
       service: rabbitmq
 
+
     prometheus:
       entrypoints:
         - web
@@ -39,7 +40,8 @@ http:
       loadBalancer:
         servers:
           - url: http://rabbitmq:15672  # Replace with actual RabbitMQ host
-          # ... other load balancer options ...
+    
+
 
     prometheus:
       loadBalancer:

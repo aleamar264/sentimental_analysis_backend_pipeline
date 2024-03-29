@@ -7,6 +7,8 @@ from utils.database.general import _engine
 from model.user import Base
 from routes.user import router as user_route
 
+from config.celery_utils import create_celery
+
 Base.metadata.create_all(bind=_engine)
 
 app = FastAPI(
@@ -14,6 +16,10 @@ app = FastAPI(
     docs_url="/docs",
     redoc_url="/redoc",
     root_path="/api/v1",
+    title="Asynchronous tasks processing with Celery and RabbitMQ",
+    description="FastAPI application for sentimental analysis using"
+    "RabbitMQ, Celery and Redis",
+    version="1.0.0",
 )
 
 allow_origins = ["*"]
@@ -28,7 +34,9 @@ app.add_middleware(
 )
 
 app.add_middleware(BaseHTTPMiddleware, dispatch=log_middleware)
+app.celery_app = create_celery()
 app.include_router(user_route)
+celery = app.celery_app
 
 
 @app.get("/health", status_code=200)
