@@ -13,6 +13,4 @@ until worker_ready; do
 done
 >&2 echo 'Celery workers is available'
 
-celery flower \
-    --app=main.celery \
-    --port=5555
+celery -A main.celery flower --port=5555

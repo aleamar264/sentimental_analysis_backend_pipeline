@@ -4,6 +4,7 @@ volumes:
     prometheus_data:
     grafana_data:
     db_data:
+    cache:
 
 networks:
   front-tier:
@@ -223,4 +224,13 @@ services:
     networks:
       - back-tier
 
-    
+  cache:
+    image: redis
+    hostname: cache
+    restart: always
+    volumes:
+      - cache:/data
+    labels:
+      - "traefik.enable=true"
+    networks:
+      - back-tier
