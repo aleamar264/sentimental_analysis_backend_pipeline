@@ -10,7 +10,7 @@ from routes.auth import router as auth_route
 
 # Create tables if they don't exist
 
-from config.celery_utils import create_celery
+from celery_tools.config.celery_utils import create_celery
 
 Base.metadata.create_all(bind=_engine)
 

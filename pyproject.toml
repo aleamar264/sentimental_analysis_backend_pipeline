@@ -6,7 +6,7 @@ authors = ["Alejandro Amar Gil <alejandroamar66@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "3.12.0"
+python = "^3.12"
 pydantic = "^2.6.4"
 fastapi = "^0.110.0"
 uvicorn = {extras = ["standard"], version = "^0.28.0"}
@@ -28,8 +28,18 @@ flower = "^2.0.1"
 httpx = "^0.27.0"
 kombu = "^5.3.6"
 isort = "^5.13.2"
-
+transformers = "^4.39.2"
+torch = {version="^2.2.1", source="torch"}
+torchaudio = { version = "^2.2.0", source="torch"}
+torchvision = { version = "^0.17", source="torch"}
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+
+[[tool.poetry.source]]
+
+name = "torch"
+url = "https://download.pytorch.org/whl/cu121"
+priority  = "supplemental"

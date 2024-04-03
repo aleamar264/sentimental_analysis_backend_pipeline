@@ -1,7 +1,27 @@
 from pydantic import BaseModel
 
 
-class AnalysisModel(BaseModel): ...
+class AnalysisModel(BaseModel):
+    id: int | None = None
+    phrase: str | list[str]
+    model: str = "cardiffnlp/twitter-roberta-base-sentiment-latest"
 
-
-class 
+    model_config = {
+        "json_schema_extra": {
+            "examples": [
+                {
+                    "id": None,
+                    "phrase": "I love this movie!",
+                    "model": "cardiffnlp/twitter-roberta-base-sentiment-latest",
+                }
+            ],
+            "general_models": [
+                "siebert/sentiment-roberta-large-english",
+                "cardiffnlp/twitter-roberta-base-sentiment-latest",
+            ],
+            "financial_models": [
+                "Jean-Baptiste/roberta-large-financial-news-sentiment-en",
+                "mrm8488/distilroberta-finetuned-financial-news-sentiment-analysis",
+            ],
+        }
+    }

@@ -11,10 +11,18 @@ http:
     rabbitmq:
       entrypoints:
         - web  # Assuming "web" entrypoint is used (adjust if needed)
+      rule: Host(`localhost`) && PathPrefix(`/rabbitmq/dashboard/`)  # Matches requests to /rabbitmq/
+      middlewares:
+        - rabbitmq-strip-prefix-dashboard  # Reference to a middleware for path stripping (defined below)
+      service: rabbitmq
+
+    rabbitmq-amqp:
+      entrypoints:
+        - web  # Assuming "web" entrypoint is used (adjust if needed)
       rule: Host(`localhost`) && PathPrefix(`/rabbitmq/`)  # Matches requests to /rabbitmq/
       middlewares:
         - rabbitmq-strip-prefix  # Reference to a middleware for path stripping (defined below)
-      service: rabbitmq
+      service: rabbitmq-amqp
 
 
     prometheus:
@@ -42,6 +50,10 @@ http:
           - url: http://rabbitmq:15672  # Replace with actual RabbitMQ host
     
 
+    rabbitmq-amqp:
+      loadBalancer:
+        servers:
+          - url: http://rabbitmq:5672  # Replace with actual RabbitMQ host
 
     prometheus:
       loadBalancer:
@@ -63,4 +75,8 @@ http:
       stripPrefix:
         prefixes:
           - /rabbitmq/  # Strips the "/rabbitmq/" prefix
+    rabbitmq-strip-prefix-dashboard:
+      stripPrefix:
+        prefixes:
+          - /rabbitmq/dashboard/  # Strips the "/rabbitmq/" prefix
 
