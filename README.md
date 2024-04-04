@@ -51,17 +51,24 @@ In this port we have the following services:
 - The api (`localhost:9000/api/v1`)
 - Grafana (`localhost:9000/grafana`)
     - User: admin
-    - Password: foobar 
+    - Password: foobar
+
+![](./attachment/grafana.png)
 - Prometheus (`localhost:9000/prom`)
 - RabbitMQ (`localhost:9000/rabbitmq/dashboard/#/`)
     - User: rabbitmq
     - Password: rabbitmq
 
+![](./attachment/rabbitmq.png)
+
 To monitoring traefik, we use the endpoint `localhost:9100/dashboard`
+![](./attachment/traefik_dashboard.png)
 
 To use the api, we can use tools like postman, curl, or any tool that allow us to send petitions. The easy way to make test, are using the `docs` that FastAPI have.
 
 - `localhost:9000/api/v1/docs`
+
+!["FastAPI docs"](./attachment/fastapi_docs.png)
 
 This API is divided in 3 sections:
 - Users
@@ -72,4 +79,8 @@ To make use the API we need to create an user and authenticate with the basics (
 
 The endpoints that don't have the `async` prefix are not asynchronous and use redis to improve the performance. The endpoints with `async` use celery and rabbitmq to make background tasks.
 This last return an `id` that we can use to check the status of the task (`/analysis/tasks/{task_id}`).
- 
+
+
+To check the behaviour of the Celery and this tasks, with the `localhost:5555` we have access to flower, to monitoring the tasks.
+
+![](./attachment/flower_celery.png)
